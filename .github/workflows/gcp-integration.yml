@@ -32,10 +32,4 @@ jobs:
           APPLICATION_CREDENTIALS: ${{secrets.GCLOUD_AUTH}}
           cli: gcloud
         with:
-          args: gcloud app deploy target/cryptoConv-0.0.1-SNAPSHOT.jar
-
-#
-#      - name: deploying!
-#        uses: actions/gcloud/cli@master
-#        with:
-#          args: "app deploy --quiet --project=crypto-convert-app"
+          args: app deploy target/cryptoConv-0.0.1-SNAPSHOT.jar
