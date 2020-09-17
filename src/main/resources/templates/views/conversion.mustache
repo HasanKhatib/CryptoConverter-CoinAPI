@@ -1,0 +1,71 @@
+{{>header}}
+<section class="page-section" id="messagesArea">
+    <div class="form-group">
+        <select name="from" class="form-control" required="required">
+            {{#symbols}}
+            <option value="{{asset_id}}">{{asset_id}}</option>
+            {{/symbols}}
+        </select>
+    </div>
+    <div class="form-group">
+        <select name="to" class="form-control" required="required">
+            {{#symbols}}
+            <option value="{{asset_id}}">{{asset_id}}</option>
+            {{/symbols}}
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="number" name="amount" class="form-control" required="required"
+               placeholder="Amount to convert">
+    </div>
+    <div class="form-group">
+        <button onclick="javascript:convert();" class="btn btn-success">Convert</button>
+
+    </div>
+    <div id="loader" class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <label id="result">
+    </label>
+    </body>
+</section>
+
+<script>
+    var haha = null;
+
+    function convert() {
+        $('#result').removeClass('text-danger');
+        $('#result').removeClass('text-success');
+
+        var slctFrom = $('select[name="from"]').val();
+        var slctTo = $('select[name="to"]').val();
+        var inptAmount = $('input[name="amount"]').val().trim();
+        console.log(slctFrom + ', ' + slctTo +', ' + inptAmount)
+        if(slctFrom === '' || slctTo ==='' || inptAmount=== ""){
+            $('#result').text('All fields are required!');
+            $('#result').addClass('text-danger');
+
+            return;
+        }
+        $('#loader').show();
+        $.ajax({
+            method: "GET",
+            url: "/api/v1/convert",
+            data: {
+                from: slctFrom,
+                to: slctTo,
+                amount: inptAmount
+            }
+        }).done(function (msg) {
+            $('#loader').hide();
+            if (msg.startsWith("error")) {
+                console.log('error')
+            }
+            console.log(msg);
+            var result = $('input[name="amount"]').val() + " " + $('select[name="from"]').val() + " = " + JSON.parse(msg).amount + " " + $('select[name="to"]').val();
+            $('#result').text(result);
+            $('#result').addClass('text-success');
+        });
+    }
+</script>
+{{>footer}}

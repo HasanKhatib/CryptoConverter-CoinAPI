@@ -1,0 +1,41 @@
+
+name: GCP CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Java 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11.0.x'
+          java-package: jdk
+          architecture: x64
+
+      - name: installing JAR File
+        run: |
+          mvn install
+
+      - name: Initialize gcloud
+        uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: crypto-convert-app
+          APPLICATION_CREDENTIALS: ${{secrets.GCLOUD_AUTH}}
+          cli: gcloud
+        with:
+          args: gcloud app deploy target/cryptoConv-0.0.1-SNAPSHOT.jar
+
+#
+#      - name: deploying!
+#        uses: actions/gcloud/cli@master
+#        with:
+#          args: "app deploy --quiet --project=crypto-convert-app"
