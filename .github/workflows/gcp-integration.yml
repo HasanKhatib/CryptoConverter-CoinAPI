@@ -24,6 +24,8 @@ jobs:
       - name: installing JAR File
         run: |
           mvn install
+          export SA = $(mvn version)
+          echo ${{env.SA}}
 
       - name: Initialize gcloud
         uses: actions-hub/gcloud@master
