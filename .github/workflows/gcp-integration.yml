@@ -17,8 +17,8 @@ jobs:
 
       - name: exporting env
         run: |
-          export SA = "$(mvn version)"
-          echo ${{env.SA}}
+          echo mvn version >> MV_VER
+          echo ${{env.MV_VER}}
 
       #- name: Initialize gcloud
       #  uses: actions-hub/gcloud@master
