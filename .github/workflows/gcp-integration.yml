@@ -27,8 +27,8 @@ jobs:
           echo $($MV_VER)
           echo ${{env.MV_VER}}
           echo 'done'
-          env:
-            MV_VER: $(java -version)
+        env:
+          MV_VER: $(java -version)
 
       #- name: Initialize gcloud
       #  uses: actions-hub/gcloud@master
