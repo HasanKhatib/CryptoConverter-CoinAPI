@@ -23,7 +23,7 @@ jobs:
 
       - name: exporting env
         run: |
-          $(mvn -version) >> MV_VER
+          $(java -version) >> MV_VER
           echo "${{env.MV_VER}}"
           echo $MV_VER
           echo 'done'
